@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@600&display=block" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body { width: var(--w); height: var(--h); overflow: hidden; background: #fff; }
+  .stage { width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .swirls { position: absolute; inset: 0; }
+  .icon { position: relative; }
+  .word { position: relative; font-family: "Dancing Script", cursive; font-weight: 700; color: #1d1b22; line-height: 1; }
+  .tag { position: relative; font-family: "Inter", sans-serif; font-weight: 600; color: #3a3644; letter-spacing: 0.22em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage"></div>
+<script>
+  // ?mode=icon|lockup&size=N
+  const q = new URLSearchParams(location.search);
+  const mode = q.get('mode') || 'icon';
+  const w = +(q.get('w') || 1024), h = +(q.get('h') || 1024);
+  document.body.style.setProperty('--w', w + 'px');
+  document.body.style.setProperty('--h', h + 'px');
+  const swirl = (cx, cy, r, colors, op) => colors.map((c, i) =>
+    `<circle cx="${cx}" cy="${cy}" r="${r - i * r / colors.length}" fill="none" stroke="${c}" stroke-width="${r / colors.length * 0.55}" opacity="${op}"/>`).join('');
+  const bg = (W, H) => `<svg class="swirls" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice">
+    ${swirl(W * 0.04, H * 0.06, W * 0.16, ['#F7C948', '#F06292', '#FFE14D'], 0.38)}
+    ${swirl(W * 0.97, H * 0.08, W * 0.15, ['#9FA8DA', '#F06292', '#C0CA33'], 0.34)}
+    ${swirl(W * 0.02, H * 0.97, W * 0.12, ['#C0CA33', '#F7871F', '#9FA8DA'], 0.3)}
+    ${swirl(W * 0.99, H * 0.95, W * 0.13, ['#F06292', '#FFD60A', '#7E57C2'], 0.3)}
+  </svg>`;
+  fetch('../website/assets/logo.svg').then(r => r.text()).then(svg => {
+    const st = document.getElementById('stage');
+    if (mode === 'icon') {
+      st.innerHTML = bg(w, h) + `<div class="icon" style="width:${w * 0.86}px;height:${h * 0.86}px">${svg}</div>`;
+    } else {
+      st.innerHTML = bg(w, h) +
+        `<div class="icon" style="width:${h * 0.5}px;height:${h * 0.5}px">${svg}</div>` +
+        `<div class="word" style="font-size:${h * 0.16}px;margin-top:${h * 0.01}px">Jesus Worldwide</div>` +
+        `<div class="tag" style="font-size:${h * 0.032}px;margin-top:${h * 0.035}px">Spreading the Gospel through music</div>`;
+    }
+    document.fonts.ready.then(() => document.title = 'ready');
+  });
+</script>
+</body>
+</html>

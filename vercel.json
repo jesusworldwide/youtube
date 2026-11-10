@@ -4,7 +4,9 @@
   "rewrites": [
     { "source": "/", "destination": "/website/index.html" },
     { "source": "/styles.css", "destination": "/website/styles.css" },
+    { "source": "/assets/:file", "destination": "/website/assets/:file" },
     { "source": "/public/privacypolicy", "destination": "/website/public/privacypolicy.html" },
-    { "source": "/public/terms", "destination": "/website/public/terms.html" }
+    { "source": "/public/terms", "destination": "/website/public/terms.html" },
+    { "source": "/google7db7a7723531a5b9.html", "destination": "/website/google7db7a7723531a5b9.html" }
   ]
 }

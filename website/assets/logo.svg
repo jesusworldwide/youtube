@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Jesus Worldwide">
+  <defs>
+    <linearGradient id="jw-stem" gradientUnits="userSpaceOnUse" x1="0" y1="66" x2="0" y2="452">
+      <stop offset="0" stop-color="#FFD60A"/>
+      <stop offset="0.42" stop-color="#22A84B"/>
+      <stop offset="0.7" stop-color="#0E8F86"/>
+      <stop offset="1" stop-color="#1A4FC4"/>
+    </linearGradient>
+    <linearGradient id="jw-bar" gradientUnits="userSpaceOnUse" x1="104" y1="0" x2="408" y2="0">
+      <stop offset="0" stop-color="#E5322D"/>
+      <stop offset="0.3" stop-color="#F7871F"/>
+      <stop offset="0.62" stop-color="#22A84B"/>
+      <stop offset="1" stop-color="#1E7FD6"/>
+    </linearGradient>
+    <linearGradient id="jw-sash" gradientUnits="userSpaceOnUse" x1="130" y1="230" x2="300" y2="70">
+      <stop offset="0" stop-color="#F7871F"/>
+      <stop offset="1" stop-color="#FFE14D"/>
+    </linearGradient>
+    <linearGradient id="jw-ribbon" gradientUnits="userSpaceOnUse" x1="0" y1="236" x2="0" y2="452">
+      <stop offset="0" stop-color="#FFC400"/>
+      <stop offset="0.5" stop-color="#F7871F"/>
+      <stop offset="1" stop-color="#E5322D"/>
+    </linearGradient>
+    <radialGradient id="jw-shadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#1d1b22" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#1d1b22" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="jw-cross">
+      <rect x="216" y="66" width="80" height="386" rx="6"/>
+      <rect x="104" y="150" width="304" height="80" rx="6"/>
+    </clipPath>
+  </defs>
+
+  <ellipse cx="256" cy="462" rx="100" ry="11" fill="url(#jw-shadow)"/>
+
+  <!-- ribbon flowing around the left of the stem -->
+  <path d="M296 236 C 236 236 166 274 162 346 C 158 404 196 440 248 452
+           C 214 432 192 398 196 352 C 200 296 244 262 296 258 Z"
+        fill="url(#jw-ribbon)"/>
+
+  <!-- cross -->
+  <rect x="216" y="66" width="80" height="386" rx="6" fill="url(#jw-stem)"/>
+  <rect x="104" y="150" width="304" height="80" rx="6" fill="url(#jw-bar)"/>
+
+  <!-- sash across the crossing, kept inside the cross -->
+  <path clip-path="url(#jw-cross)" d="M120 236 C 188 200 240 146 304 66 L 304 120 C 254 182 206 222 170 240 Z"
+        fill="url(#jw-sash)" opacity="0.92"/>
+
+  <!-- ribbon wrapping over the front of the stem -->
+  <path d="M296 236 C 270 236 242 240 216 248 L 216 270 C 242 262 270 258 296 258 Z" fill="#FFC400"/>
+  <path d="M216 430 C 226 440 236 447 248 452 C 236 452 226 450 216 446 Z" fill="#E5322D"/>
+</svg>

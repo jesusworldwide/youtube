@@ -1,26 +1,28 @@
+/* Jesus Worldwide brand: rainbow cross on soft white, pastel swirls */
 :root {
-  --bg: #fbfaf7;
+  --red: #E5322D;
+  --orange: #F7871F;
+  --yellow: #FFD60A;
+  --green: #22A84B;
+  --teal: #0E8F86;
+  --blue: #1E7FD6;
+  --indigo: #1A4FC4;
+  --pink: #F06292;
+  --purple: #7E57C2;
+
+  --bg: #fffdfb;
   --surface: #ffffff;
   --text: #1d1b22;
   --muted: #5c5866;
-  --line: #e7e3dc;
-  --accent: #e8590c;
-  --accent-2: #1098ad;
-  --accent-3: #3b5bdb;
-  --radius: 14px;
+  --line: #efe8e2;
+  --link: #1A4FC4;
+  --swirl-opacity: 0.38;
+  --radius: 18px;
+  --rainbow: linear-gradient(90deg, var(--red), var(--orange), var(--yellow), var(--green), var(--teal), var(--blue), var(--purple));
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #131217;
-    --surface: #1c1b22;
-    --text: #f1eff5;
-    --muted: #a9a4b3;
-    --line: #2d2b35;
-    --accent: #ff8a3d;
-    --accent-2: #3bc9db;
-    --accent-3: #748ffc;
-  }
-}
+/* Light by design: the brand is bright colour on white, like the logo. */
+:root { color-scheme: light; }
+
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
@@ -28,35 +30,78 @@ body {
   background: var(--bg);
   color: var(--text);
   font: 17px/1.65 "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
 }
-a { color: var(--accent-3); }
-.bar {
-  height: 5px;
-  background: linear-gradient(90deg, var(--accent), #f59f00, #37b24d, var(--accent-2), var(--accent-3), #ae3ec9);
+a { color: var(--link); }
+img { max-width: 100%; display: block; }
+
+.bar { height: 6px; background: var(--rainbow); }
+
+/* Header */
+header, main, footer { max-width: 880px; margin: 0 auto; padding: 0 20px; position: relative; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; padding-top: 18px; padding-bottom: 18px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+.brand img { width: 44px; height: 44px; }
+.brand span { font-family: "Dancing Script", cursive; font-weight: 700; font-size: 1.75rem; line-height: 1; }
+nav { display: flex; gap: 6px 18px; flex-wrap: wrap; }
+nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+nav a:hover, nav a[aria-current="page"] { color: var(--text); }
+
+/* Decorative swirls */
+.swirls { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.swirl {
+  position: absolute; border-radius: 50%;
+  opacity: var(--swirl-opacity);
 }
-header, main, footer { max-width: 760px; margin: 0 auto; padding: 0 20px; }
-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 22px; padding-bottom: 22px; flex-wrap: wrap; }
-.brand { font-weight: 800; font-size: 1.15rem; text-decoration: none; color: var(--text); letter-spacing: -0.01em; }
-.brand span { color: var(--accent); }
-nav a { color: var(--muted); text-decoration: none; margin-left: 18px; font-size: 0.95rem; }
-nav a:first-child { margin-left: 0; }
-nav a:hover { color: var(--text); }
-.hero { padding: 48px 0 28px; }
-.hero h1 { font-size: clamp(2.1rem, 6vw, 3.2rem); line-height: 1.1; margin: 0 0 16px; letter-spacing: -0.02em; }
-.hero p { color: var(--muted); font-size: 1.12rem; margin: 0 0 26px; max-width: 600px; }
+.swirl.a { width: 260px; height: 260px; left: -110px; top: -60px;
+  background: radial-gradient(circle, transparent 22%, #FFE58F 23% 34%, transparent 35% 47%, #F8BBD0 48% 60%, transparent 61% 73%, #FFE0A3 74% 86%, transparent 87%); }
+.swirl.b { width: 240px; height: 240px; right: -100px; top: 10px;
+  background: radial-gradient(circle, transparent 22%, #DCE775 23% 34%, transparent 35% 47%, #F8BBD0 48% 60%, transparent 61% 73%, #C5CAE9 74% 86%, transparent 87%); }
+.swirl.c { width: 200px; height: 200px; right: 12%; bottom: -120px;
+  background: radial-gradient(circle, transparent 22%, #D1C4E9 23% 34%, transparent 35% 47%, #FFF59D 48% 60%, transparent 61% 73%, #F8BBD0 74% 86%, transparent 87%); }
+
+/* Hero */
+.hero { position: relative; padding: 36px 0 30px; text-align: center; }
+.hero > *:not(.swirls) { position: relative; z-index: 1; }
+.hero .mark { width: 150px; height: 150px; margin: 0 auto 6px; }
+.hero h1 {
+  font-family: "Dancing Script", cursive; font-weight: 700;
+  font-size: clamp(2.8rem, 9vw, 4.6rem); line-height: 1.05; margin: 0;
+}
+.tagline { text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.8rem; font-weight: 600; color: var(--muted); margin: 10px 0 22px; }
+.hero p.lead { color: var(--muted); font-size: 1.1rem; margin: 0 auto 26px; max-width: 620px; }
 .btn {
-  display: inline-block; background: var(--accent); color: #fff; text-decoration: none;
-  padding: 12px 22px; border-radius: 999px; font-weight: 600; margin: 0 10px 10px 0;
+  display: inline-block; text-decoration: none; font-weight: 600;
+  padding: 12px 24px; border-radius: 999px; margin: 0 5px 10px;
+  color: #fff; background: linear-gradient(90deg, var(--red), var(--orange));
+  box-shadow: 0 6px 18px -8px rgba(229, 50, 45, 0.6);
 }
-.btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+.btn.ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); box-shadow: none; }
+
+/* Cards */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin: 10px 0; }
 .card {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 24px 26px; margin: 22px 0;
+  position: relative; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 24px 24px 20px; overflow: hidden;
 }
-.card h2 { margin-top: 0; font-size: 1.25rem; }
-.doc h1 { font-size: clamp(1.9rem, 5vw, 2.5rem); margin: 32px 0 6px; letter-spacing: -0.02em; }
-.doc .meta { color: var(--muted); margin: 0 0 28px; }
-.doc h2 { font-size: 1.2rem; margin: 34px 0 8px; }
+.card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--accent, var(--rainbow)); }
+.card.red { --accent: linear-gradient(90deg, var(--red), var(--orange)); }
+.card.green { --accent: linear-gradient(90deg, var(--yellow), var(--green)); }
+.card.blue { --accent: linear-gradient(90deg, var(--teal), var(--indigo)); }
+.card h2 { margin: 2px 0 8px; font-size: 1.2rem; }
+.card p:last-child, .card ul:last-child { margin-bottom: 0; }
+.wide { margin: 18px 0; }
+
+/* Documents */
+.doc { max-width: 760px; }
+.doc h1 { font-size: clamp(1.9rem, 5vw, 2.5rem); margin: 28px 0 4px; letter-spacing: -0.02em; }
+.doc .meta { color: var(--muted); margin: 0 0 26px; }
+.doc h2 { font-size: 1.15rem; margin: 32px 0 8px; padding-left: 12px; border-left: 4px solid; border-image: linear-gradient(var(--orange), var(--green), var(--blue)) 1; }
 .doc li { margin: 4px 0; }
+code { font-size: 0.88em; background: var(--line); padding: 1px 6px; border-radius: 6px; word-break: break-all; }
+
+/* Footer */
 footer { border-top: 1px solid var(--line); margin-top: 56px; padding-top: 22px; padding-bottom: 40px; color: var(--muted); font-size: 0.92rem; }
-footer a { color: var(--muted); margin-right: 16px; }
+footer .links a { color: var(--muted); margin-right: 16px; }
+footer .foot-brand { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+footer .foot-brand img { width: 24px; height: 24px; }
