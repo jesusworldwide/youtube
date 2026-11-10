@@ -1,6 +1,10 @@
 {
-  "cleanUrls": true,
   "framework": null,
   "buildCommand": "",
-  "outputDirectory": "website"
+  "rewrites": [
+    { "source": "/", "destination": "/website/index.html" },
+    { "source": "/styles.css", "destination": "/website/styles.css" },
+    { "source": "/public/privacypolicy", "destination": "/website/public/privacypolicy.html" },
+    { "source": "/public/terms", "destination": "/website/public/terms.html" }
+  ]
 }
