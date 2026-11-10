@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!--
+  Jesus Worldwide YouTube artwork. Render one design per screenshot:
+    python3 -m http.server 8766   (from the repo root)
+    Chrome --headless=new --window-size=W,H --screenshot=out.png \
+      "http://localhost:8766/brand/thumbnails.html?d=<design>"
+  Designs (size): how-great, gates-original, gates-contemporary, mysteries (1280x720),
+                  banner (2560x1440), avatar (800x800)
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@500;700;800;900&display=block" rel="stylesheet">
+<style>
+  :root {
+    --red: #E5322D; --orange: #F7871F; --yellow: #FFD60A; --green: #22A84B;
+    --teal: #0E8F86; --blue: #1E7FD6; --indigo: #1A4FC4; --pink: #F06292; --purple: #7E57C2;
+    --ink: #1d1b22;
+    --rainbow: linear-gradient(90deg, var(--red), var(--orange), var(--yellow), var(--green), var(--teal), var(--blue), var(--purple));
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { overflow: hidden; font-family: "Inter", sans-serif; }
+  .art { position: relative; overflow: hidden; }
+  .abs { position: absolute; }
+  .logo svg { width: 100%; height: 100%; display: block; }
+  .script { font-family: "Dancing Script", cursive; font-weight: 700; }
+  .pill { display: inline-block; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 999px; }
+  .rings { position: absolute; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div id="art" class="art"></div>
+<script>
+const q = new URLSearchParams(location.search);
+const d = q.get('d') || 'how-great';
+const SIZES = { banner: [2560, 1440], avatar: [800, 800] };
+const [W, H] = SIZES[d] || [1280, 720];
+const art = document.getElementById('art');
+art.style.width = W + 'px'; art.style.height = H + 'px';
+
+// concentric pastel rings, like the swirls in the logo artwork
+const rings = (x, y, r, colors, op = 0.4, bw = 0.09) => {
+  const step = r / colors.length;
+  return colors.map((c, i) => {
+    const rr = r - i * step;
+    return `<div class="rings" style="left:${x - rr}px;top:${y - rr}px;width:${rr * 2}px;height:${rr * 2}px;border:${r * bw}px solid ${c};opacity:${op}"></div>`;
+  }).join('');
+};
+const logo = (x, y, size, extra = '') => `<div class="abs logo" style="left:${x}px;top:${y}px;width:${size}px;height:${size}px;${extra}">${LOGO}</div>`;
+const brandTag = (x, y, size, color) =>
+  `<div class="abs script" style="left:${x}px;top:${y}px;font-size:${size}px;color:${color};line-height:1">Jesus Worldwide</div>`;
+
+const designs = {
+  'how-great': () => `
+    <div class="abs" style="inset:0;background:radial-gradient(circle at 78% 50%, #FFF6D6 0%, #FFFDFB 45%, #FFF1F5 100%)"></div>
+    ${rings(1010, 360, 330, ['#FFE58F', '#F8BBD0', '#DCE775', '#FFE0A3'], 0.55, 0.075)}
+    ${rings(-40, 760, 220, ['#F8BBD0', '#FFE0A3', '#D1C4E9'], 0.45)}
+    ${logo(830, 120, 400, 'filter:drop-shadow(0 18px 30px rgba(29,27,34,.18))')}
+    <div class="abs" style="left:64px;top:92px;width:720px">
+      <span class="pill" style="font-size:26px;padding:10px 24px;color:#fff;background:linear-gradient(90deg,var(--red),var(--orange))">Afrobeat praise</span>
+      <div style="font-weight:900;font-size:150px;line-height:.92;letter-spacing:-.02em;color:var(--ink);margin-top:34px">HOW<br>GREAT</div>
+      <div style="font-weight:900;font-size:150px;line-height:.92;letter-spacing:-.02em;margin-top:6px;background:linear-gradient(90deg,var(--red),var(--orange) 30%,var(--green) 65%,var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent">YOU ARE</div>
+    </div>
+    <div class="abs" style="left:0;right:0;bottom:0;height:12px;background:var(--rainbow)"></div>
+    ${brandTag(68, 616, 54, var_('ink'))}`,
+
+  'gates-original': () => `
+    <div class="abs" style="inset:0;background:linear-gradient(160deg,#B3261E 0%,#E5322D 28%,#F7871F 62%,#FFC93C 100%)"></div>
+    <div class="abs" style="inset:0;background:repeating-conic-gradient(from 0deg at 76% 108%, rgba(255,240,180,.22) 0 6deg, transparent 6deg 14deg)"></div>
+    <!-- gate arch with light pouring out -->
+    <div class="abs" style="left:770px;top:110px;width:400px;height:640px;border-radius:200px 200px 0 0;background:radial-gradient(ellipse at 50% 70%, #FFFBEA 0%, #FFE58F 45%, rgba(255,201,60,.0) 100%);box-shadow:0 0 120px 40px rgba(255,236,160,.55)"></div>
+    <div class="abs" style="left:770px;top:110px;width:400px;height:640px;border-radius:200px 200px 0 0;border:18px solid rgba(120,30,10,.55);border-bottom:none"></div>
+    ${logo(855, 250, 230, 'filter:drop-shadow(0 10px 22px rgba(120,30,10,.35))')}
+    <div class="abs" style="left:64px;top:96px;width:690px;color:#fff">
+      <div style="font-weight:900;font-size:122px;line-height:.95;letter-spacing:-.01em;text-shadow:0 6px 24px rgba(90,20,5,.45)">GATES<br>OF PRAISE</div>
+      <span class="pill" style="margin-top:34px;font-size:40px;padding:14px 36px;color:#B3261E;background:#FFF6D6;box-shadow:0 8px 22px rgba(90,20,5,.3)">Original</span>
+      <div style="margin-top:34px;font-size:30px;font-weight:700;opacity:.95;text-shadow:0 2px 10px rgba(90,20,5,.4)">Enter His gates with thanksgiving · Ps 100:4</div>
+    </div>
+    ${brandTag(68, 622, 52, '#FFF6D6')}`,
+
+  'gates-contemporary': () => `
+    <div class="abs" style="inset:0;background:linear-gradient(135deg,#0B1440 0%,#13236B 45%,#0E5C70 100%)"></div>
+    <!-- neon rainbow arcs: a modern gate -->
+    ${[0, 1, 2, 3, 4, 5].map(i => {
+      const c = ['#E5322D', '#F7871F', '#FFD60A', '#22A84B', '#1E7FD6', '#7E57C2'][i];
+      const s = 560 - i * 62;
+      return `<div class="abs" style="left:${1000 - s / 2}px;top:${730 - s / 2}px;width:${s}px;height:${s}px;border-radius:50%;border:14px solid ${c};box-shadow:0 0 26px ${c};opacity:.95"></div>`;
+    }).join('')}
+    <!-- equalizer bars -->
+    ${Array.from({ length: 22 }, (_, i) => {
+      const h = [30, 60, 90, 54, 120, 80, 40, 100, 140, 70, 46, 110, 64, 36, 92, 130, 58, 84, 42, 104, 68, 34][i];
+      return `<div class="abs" style="left:${64 + i * 30}px;bottom:46px;width:16px;height:${h}px;border-radius:8px;background:linear-gradient(var(--yellow),var(--teal));opacity:.85"></div>`;
+    }).join('')}
+    ${logo(910, 430, 180, 'filter:drop-shadow(0 0 24px rgba(255,255,255,.35))')}
+    <div class="abs" style="left:64px;top:84px;width:760px;color:#fff">
+      <span class="pill" style="font-size:40px;padding:14px 34px;color:#0B1440;background:linear-gradient(90deg,#5CE1E6,#7FD8FF);box-shadow:0 0 30px rgba(92,225,230,.55)">Contemporary</span>
+      <div style="font-weight:900;font-size:122px;line-height:.95;letter-spacing:-.01em;margin-top:30px">GATES<br><span style="background:linear-gradient(90deg,#FFD60A,#F7871F,#F06292);-webkit-background-clip:text;background-clip:text;color:transparent">OF PRAISE</span></div>
+    </div>
+    ${brandTag(900, 60, 52, '#E6F7FF')}`,
+
+  'mysteries': () => `
+    <div class="abs" style="inset:0;background:radial-gradient(circle at 74% 46%, #3B2A78 0%, #1A1240 38%, #0A0818 100%)"></div>
+    ${Array.from({ length: 90 }, (_, i) => {
+      const x = (i * 137.5) % 1280, y = (i * 71.3 + (i % 7) * 40) % 720, r = (i % 5 === 0) ? 3 : 1.6;
+      return `<div class="abs" style="left:${x}px;top:${y}px;width:${r * 2}px;height:${r * 2}px;border-radius:50%;background:#fff;opacity:${0.25 + (i % 4) * 0.15}"></div>`;
+    }).join('')}
+    <div class="abs" style="left:700px;top:20px;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle, rgba(255,214,10,.45) 0%, rgba(247,135,31,.18) 35%, rgba(126,87,194,0) 70%)"></div>
+    ${logo(860, 140, 380, 'filter:drop-shadow(0 0 40px rgba(255,214,10,.45))')}
+    <div class="abs" style="left:64px;top:150px;width:760px;color:#fff">
+      <div style="font-weight:900;font-size:124px;line-height:1;letter-spacing:.04em">MYSTERIES</div>
+      <div class="script" style="font-size:132px;line-height:1;margin-top:-6px;color:#FFD60A;text-shadow:0 0 30px rgba(255,214,10,.45)">of Praise</div>
+      <span class="pill" style="margin-top:34px;font-size:28px;padding:12px 28px;color:#E9E3FF;border:3px solid rgba(233,227,255,.7)">Spirit-filled worship</span>
+    </div>
+    ${brandTag(68, 630, 48, '#D9D2FF')}`,
+
+  'banner': () => {
+    // YouTube safe area for all devices: 1546x423 centred
+    const sx = (W - 1546) / 2, sy = (H - 423) / 2;
+    return `
+    <div class="abs" style="inset:0;background:radial-gradient(ellipse at 50% 50%, #FFFDFB 0%, #FFF6EC 55%, #FDEEF3 100%)"></div>
+    ${rings(160, 200, 380, ['#FFE58F', '#F8BBD0', '#FFE0A3', '#C5CAE9'], 0.45, 0.08)}
+    ${rings(2400, 260, 420, ['#DCE775', '#F8BBD0', '#C5CAE9', '#FFE58F'], 0.42, 0.08)}
+    ${rings(420, 1350, 330, ['#C0CA33', '#FFD0A8', '#D1C4E9'], 0.38, 0.08)}
+    ${rings(2180, 1300, 360, ['#F8BBD0', '#FFF59D', '#D1C4E9'], 0.38, 0.08)}
+    <div class="abs" style="left:0;right:0;top:0;height:18px;background:var(--rainbow)"></div>
+    <div class="abs" style="left:0;right:0;bottom:0;height:18px;background:var(--rainbow)"></div>
+    <div class="abs" style="left:${sx}px;top:${sy}px;width:1546px;height:423px;display:flex;align-items:center;justify-content:center;gap:56px">
+      <div class="logo" style="width:330px;height:330px;flex:none;filter:drop-shadow(0 14px 24px rgba(29,27,34,.16))">${LOGO}</div>
+      <div style="text-align:left">
+        <div class="script" style="font-size:168px;line-height:1;color:var(--ink)">Jesus Worldwide</div>
+        <div style="font-weight:800;font-size:38px;letter-spacing:.24em;text-transform:uppercase;color:#3a3644;margin-top:14px">Spreading the Gospel through music</div>
+        <div style="margin-top:26px;display:flex;gap:16px;align-items:center">
+          <span class="pill" style="font-size:30px;padding:12px 30px;color:#fff;background:linear-gradient(90deg,var(--red),var(--orange))">New Afro gospel every week</span>
+        </div>
+      </div>
+    </div>`;
+  },
+
+  'avatar': () => `
+    <div class="abs" style="inset:0;background:#FFFDFB"></div>
+    <div class="abs" style="left:40px;top:40px;width:720px;height:720px;border-radius:50%;padding:22px;background:conic-gradient(from 200deg, var(--red), var(--orange), var(--yellow), var(--green), var(--teal), var(--blue), var(--purple), var(--red))">
+      <div style="width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 50% 45%, #FFFFFF 0%, #FFF8EE 100%)"></div>
+    </div>
+    ${logo(170, 150, 460)}`,
+};
+function var_(n) { return getComputedStyle(document.documentElement).getPropertyValue('--' + n).trim(); }
+
+let LOGO = '';
+fetch('../website/assets/logo.svg').then(r => r.text()).then(svg => {
+  LOGO = svg;
+  art.innerHTML = designs[d]();
+  document.fonts.ready.then(() => { document.title = 'ready'; });
+});
+</script>
+</body>
+</html>
