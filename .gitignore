@@ -1,0 +1,18 @@
+# Secrets: never commit (this repo is public)
+client_secret*.json
+token.json
+.env
+.env.*
+
+# Machine-specific config (copy from .mcp.example.json)
+.mcp.json
+.claude/settings.local.json
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Vercel / OS
+.vercel/
+.DS_Store

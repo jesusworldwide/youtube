@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "youtube": {
+      "command": "/ABSOLUTE/PATH/TO/REPO/youtube-mcp/.venv/bin/python",
+      "args": ["/ABSOLUTE/PATH/TO/REPO/youtube-mcp/server.py"]
+    }
+  }
+}

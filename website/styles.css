@@ -1,0 +1,62 @@
+:root {
+  --bg: #fbfaf7;
+  --surface: #ffffff;
+  --text: #1d1b22;
+  --muted: #5c5866;
+  --line: #e7e3dc;
+  --accent: #e8590c;
+  --accent-2: #1098ad;
+  --accent-3: #3b5bdb;
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131217;
+    --surface: #1c1b22;
+    --text: #f1eff5;
+    --muted: #a9a4b3;
+    --line: #2d2b35;
+    --accent: #ff8a3d;
+    --accent-2: #3bc9db;
+    --accent-3: #748ffc;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.65 "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+a { color: var(--accent-3); }
+.bar {
+  height: 5px;
+  background: linear-gradient(90deg, var(--accent), #f59f00, #37b24d, var(--accent-2), var(--accent-3), #ae3ec9);
+}
+header, main, footer { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 22px; padding-bottom: 22px; flex-wrap: wrap; }
+.brand { font-weight: 800; font-size: 1.15rem; text-decoration: none; color: var(--text); letter-spacing: -0.01em; }
+.brand span { color: var(--accent); }
+nav a { color: var(--muted); text-decoration: none; margin-left: 18px; font-size: 0.95rem; }
+nav a:first-child { margin-left: 0; }
+nav a:hover { color: var(--text); }
+.hero { padding: 48px 0 28px; }
+.hero h1 { font-size: clamp(2.1rem, 6vw, 3.2rem); line-height: 1.1; margin: 0 0 16px; letter-spacing: -0.02em; }
+.hero p { color: var(--muted); font-size: 1.12rem; margin: 0 0 26px; max-width: 600px; }
+.btn {
+  display: inline-block; background: var(--accent); color: #fff; text-decoration: none;
+  padding: 12px 22px; border-radius: 999px; font-weight: 600; margin: 0 10px 10px 0;
+}
+.btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 24px 26px; margin: 22px 0;
+}
+.card h2 { margin-top: 0; font-size: 1.25rem; }
+.doc h1 { font-size: clamp(1.9rem, 5vw, 2.5rem); margin: 32px 0 6px; letter-spacing: -0.02em; }
+.doc .meta { color: var(--muted); margin: 0 0 28px; }
+.doc h2 { font-size: 1.2rem; margin: 34px 0 8px; }
+.doc li { margin: 4px 0; }
+footer { border-top: 1px solid var(--line); margin-top: 56px; padding-top: 22px; padding-bottom: 40px; color: var(--muted); font-size: 0.92rem; }
+footer a { color: var(--muted); margin-right: 16px; }
