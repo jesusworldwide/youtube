@@ -27,7 +27,7 @@ CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 LOGO = (ROOT / "website" / "assets" / "logo.svg").read_text()
 W, H, FPS = 1080, 1920, 30
 LEAD_IN = 0.45      # seconds of hook before the voice starts
-TAIL = 1.4          # seconds after the voice ends
+TAIL = 2.0          # seconds after the voice ends (music rings out under the CTA)
 XFADE = 0.35
 
 # Rotating looks so consecutive days don't look templated.
@@ -38,7 +38,24 @@ THEMES = [
     {"name": "deep", "bg": "linear-gradient(165deg,#1a1033 0%,#3b1f6e 55%,#7E57C2 100%)", "ink": "#ffffff", "accent": "#FFC400", "swirl": "#d1c4e9"},
     {"name": "field", "bg": "linear-gradient(165deg,#f3fbe9 0%,#c9efc0 50%,#22A84B 100%)", "ink": "#0e2a14", "accent": "#1A4FC4", "swirl": "#ffffff"},
 ]
-CHORDS = [  # soft pad roots (Hz) per theme: A, C, D, F, G major
+SONGS_DIR = ROOT / "songs "  # note: the folder name ends with a space
+BED_LUFS = -31      # music bed loudness before ducking; the voice sits at -16 (about 15 dB above)
+
+
+def song_pool() -> list[Path]:
+    return sorted(p for p in SONGS_DIR.rglob("*") if p.suffix.lower() in (".wav", ".mp3", ".m4a"))
+
+
+def wav_seconds(p: Path) -> float:
+    import wave
+    try:
+        with wave.open(str(p)) as w:
+            return w.getnframes() / w.getframerate()
+    except Exception:
+        return 180.0
+
+
+CHORDS = [  # fallback soft pad (Hz) if no songs are available: A, C, D, F, G major
     (220.0, 277.18, 329.63), (261.63, 329.63, 392.0), (293.66, 369.99, 440.0),
     (174.61, 220.0, 261.63), (196.0, 246.94, 293.66)]
 
@@ -48,6 +65,18 @@ def run(cmd: list[str], cwd: Path | None = None) -> None:
     if p.returncode != 0:
         sys.stderr.write(p.stderr[-3000:])
         raise SystemExit(f"command failed: {cmd[0]}")
+
+
+def chrome_shot(args: list[str], shot: Path) -> None:
+    """Headless Chrome screenshot. Chrome sometimes crashes during teardown on a busy
+    machine after writing the file, so success = a fresh, non-empty screenshot."""
+    shot.unlink(missing_ok=True)
+    for attempt in range(3):
+        p = subprocess.run([CHROME, *args, f"--screenshot={shot}"], capture_output=True, text=True, timeout=180)
+        if shot.exists() and shot.stat().st_size > 10_000:
+            return
+        sys.stderr.write(p.stderr[-1500:])
+    raise SystemExit("Chrome screenshot failed")
 
 
 # ---------------------------------------------------------------- narration
@@ -70,7 +99,22 @@ def narrate(spec: dict, out: Path) -> tuple[Path, list[dict], float]:
     if mp3.exists() and wj.exists() and json.loads(wj.read_text()).get("key") == key:
         words = json.loads(wj.read_text())["words"]
     else:
-        words = asyncio.run(_tts(spec["script"], spec["voice"], spec["rate"], mp3))
+        import time
+        # The voice service sometimes returns no audio for a given text+rate combination
+        # (seen 13 Nov 2026); nudging the rate by 1% (inaudible) gets past it.
+        base = int(spec["rate"].rstrip("%"))
+        rates = [base, base + 1, base - 1, base]
+        for attempt in range(4):
+            try:
+                rate = f"{rates[attempt]:+d}%"
+                words = asyncio.run(_tts(spec["script"], spec["voice"], rate, mp3))
+                if words and mp3.stat().st_size > 10_000:
+                    break
+            except Exception as e:  # NoAudioReceived, network hiccups
+                if attempt == 3:
+                    raise
+                print(f"  voice attempt {attempt + 1} failed ({e.__class__.__name__}); retrying")
+            time.sleep(5 * (attempt + 1))
         wj.write_text(json.dumps({"key": key, "words": words}))
     dur = words[-1]["t"] + words[-1]["d"] if words else 0
     return mp3, words, dur
@@ -178,9 +222,9 @@ def render_slides(spec: dict, slides: list[dict], th: dict, out: Path) -> list[P
     html_path = out / "slides.html"
     html_path.write_text(page)
     sheet = out / "slides.png"
-    run([CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars", f"--user-data-dir={out / '.chrome'}",
-         "--force-device-scale-factor=1", f"--window-size={W},{H * len(slides)}",
-         "--virtual-time-budget=7000", f"--screenshot={sheet}", html_path.as_uri()])
+    chrome_shot(["--headless=new", "--disable-gpu", "--hide-scrollbars", f"--user-data-dir={out / '.chrome'}",
+                 "--force-device-scale-factor=1", f"--window-size={W},{H * len(slides)}",
+                 "--virtual-time-budget=7000", html_path.as_uri()], sheet)
     paths = []
     for i in range(len(slides)):
         p = out / f"slide{i}.png"
@@ -254,15 +298,28 @@ def assemble(spec: dict, slides: list[dict], pngs: list[Path], voice: Path, ass:
 
     vi = len(pngs)
     inputs += ["-i", voice.name]
-    f1, f2, f3 = chord
-    pad = (f"aevalsrc='0.05*sin(2*PI*{f1}*t)+0.035*sin(2*PI*{f2}*t)+0.035*sin(2*PI*{f3}*t)"
-           f"+0.02*sin(2*PI*{f1*2}*t)':s=48000:d={total:.2f}")
-    inputs += ["-f", "lavfi", "-i", pad]
     filt.append(f"[{vi}:a]adelay={int(LEAD_IN*1000)}|{int(LEAD_IN*1000)},aresample=48000,"
-                f"loudnorm=I=-16:TP=-1.5:LRA=11[voice]")
-    filt.append(f"[{vi+1}:a]tremolo=f=0.25:d=0.35,lowpass=f=1800,aecho=0.8:0.7:60|120:0.25|0.18,"
-                f"volume=0.55,afade=t=in:d=1.2,afade=t=out:st={total-1.6:.2f}:d=1.6[pad]")
-    filt.append("[voice][pad]amix=inputs=2:duration=first:normalize=0,"
+                f"loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000,apad=whole_dur={total:.3f},asplit=2[voice][key]")
+    song = spec.get("_song")
+    if song:
+        # One of our songs as a soft bed: centre (lead vocal) removed, highs rolled off,
+        # ~18 dB under the narration and ducked further whenever the voice speaks.
+        inputs += ["-ss", f"{spec['_song_start']:.2f}", "-t", f"{total + 1:.2f}", "-i", song]
+        filt.append(f"[{vi+1}:a]aresample=48000,aformat=channel_layouts=stereo,"
+                    f"pan=stereo|c0=0.5*c0-0.5*c1|c1=0.5*c0-0.5*c1,"
+                    f"highpass=f=110,lowpass=f=3200,aecho=0.8:0.6:40:0.2,"
+                    f"loudnorm=I={BED_LUFS}:TP=-9:LRA=7,aresample=48000,"
+                    f"afade=t=in:d=1.5,afade=t=out:st={total-1.1:.2f}:d=1.1[bed0]")
+        filt.append("[bed0][key]sidechaincompress=threshold=0.03:ratio=5:attack=40:release=600:makeup=1[bed]")
+    else:
+        f1, f2, f3 = chord
+        pad = (f"aevalsrc='0.05*sin(2*PI*{f1}*t)+0.035*sin(2*PI*{f2}*t)+0.035*sin(2*PI*{f3}*t)"
+               f"+0.02*sin(2*PI*{f1*2}*t)':s=48000:d={total:.2f}")
+        inputs += ["-f", "lavfi", "-i", pad]
+        filt.append("[key]anullsink")
+        filt.append(f"[{vi+1}:a]tremolo=f=0.25:d=0.35,lowpass=f=1800,aecho=0.8:0.7:60|120:0.25|0.18,"
+                    f"volume=0.55,afade=t=in:d=1.2,afade=t=out:st={total-1.6:.2f}:d=1.6[bed]")
+    filt.append("[voice][bed]amix=inputs=2:duration=first:normalize=0,"
                 f"apad=whole_dur={total:.3f},atrim=duration={total:.3f},loudnorm=I=-14:TP=-1.0[aout]")
     video = out / spec.get("output", "video.mp4")
     run([FFMPEG, "-y", "-loglevel", "error", *inputs, "-filter_complex", ";".join(filt),
@@ -279,6 +336,13 @@ def main(spec_path: str) -> None:
     th, chord = THEMES[day % len(THEMES)], CHORDS[day % len(CHORDS)]
     voice, words, vdur = narrate(spec, out)
     total = round(LEAD_IN + vdur + TAIL, 2)
+    pool = song_pool()
+    if pool:
+        song = pool[(day + int(spec["date"][5:7])) % len(pool)]
+        length = wav_seconds(song)
+        # start somewhere in the middle third, varied by day, so each Short sounds different
+        start = max(8.0, min(length - total - 5, length * (0.25 + 0.08 * (day % 5))))
+        spec["_song"], spec["_song_start"] = str(song), start
     if total > 59:
         print(f"  warning: {total:.1f}s is long for a Short")
     slides = timeline(spec, words, vdur)
@@ -286,7 +350,8 @@ def main(spec_path: str) -> None:
     span = find_span(words, spec["verse"]["text"]) if spec.get("verse") else None
     ass = captions(words, out, (span[0] + LEAD_IN, span[1] + LEAD_IN) if span else None)
     video = assemble(spec, slides, pngs, voice, ass, chord, out, total)
-    print(f"{spec['date']}  {total:.1f}s  theme={th['name']}  slides={len(slides)}  -> {video}")
+    song_name = Path(spec.get("_song", "pad")).stem
+    print(f"{spec['date']}  {total:.1f}s  theme={th['name']}  music={song_name}  -> {video.name}")
 
 
 if __name__ == "__main__":

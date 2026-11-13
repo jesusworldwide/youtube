@@ -18,8 +18,11 @@ from pathlib import Path
 
 from googleapiclient.errors import HttpError
 
+import make_long
 import make_short
 import yt_publish
+
+RENDERERS = {"daily-bread": make_short.main, "music-video": make_long.main, "compilation": make_long.main}
 
 ROOT = Path(__file__).resolve().parent.parent
 PROD = ROOT / "production"
@@ -64,7 +67,7 @@ def main() -> None:
             continue
         if not video.exists():
             try:
-                make_short.main(str(p))
+                RENDERERS[s.get("kind", "daily-bread")](str(p))
                 log(f"rendered {p.parent.name}")
             except BaseException as e:  # keep the queue going
                 log(f"RENDER FAILED {p.parent.name}: {e!r}")
@@ -80,8 +83,9 @@ def main() -> None:
             uploads += 1
             log(f"uploaded {p.parent.name} -> {json.loads(p.read_text()).get('youtube_id')}")
         except HttpError as e:
-            if "quota" in str(e).lower():
-                log("quota reached for today; stopping uploads")
+            msg = str(e).lower()
+            if "quota" in msg or "uploadlimitexceeded" in msg or "exceeded the number of videos" in msg:
+                log("daily quota / channel upload limit reached; stopping uploads until tomorrow")
                 a.render_only = True
                 continue
             log(f"UPLOAD FAILED {p.parent.name}: {e}")

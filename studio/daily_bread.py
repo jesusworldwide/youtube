@@ -18,6 +18,8 @@ OUT = ROOT / "production" / "daily-bread"
 MONTHS = {m: i for i, m in enumerate(
     ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 1)}
 VOICE = "en-US-AndrewNeural"  # chosen by the user on 2026-11-13, for all videos
+# One-off publish times (UTC) where 06:00 can't be met, e.g. the catch-up start.
+PUBLISH_OVERRIDES = {"2026-11-14": "18:00"}
 FOOTER = (
     "\n\n🎵 Our songs: https://www.youtube.com/@JesusIsWorldwide/videos"
     "\n🙏 Subscribe for Daily Bread every morning: https://www.youtube.com/@JesusIsWorldwide?sub_confirmation=1"
@@ -65,7 +67,7 @@ def parse(md: str, year: int) -> list[dict]:
                 "tags": ["Daily Bread", "Jesus Worldwide", "Bible verse", "daily devotional", "Christian shorts"]
                         + [t for t in tags if t.lower() not in ("shorts",)],
                 "category_id": "27",  # Education: spoken devotional content
-                "publish_at": f"{date}T06:00:00Z",
+                "publish_at": f"{date}T{PUBLISH_OVERRIDES.get(date, '06:00')}:00Z",
                 "playlist_id": "PLbjnEjWYKSSw",
             },
         })

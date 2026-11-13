@@ -1,0 +1,261 @@
+{
+  "series": "Community posts, every 2-3 days, 15 Nov - 30 Dec 2026",
+  "time_utc": "12:00",
+  "notes": "Scheduled in YouTube Studio > Create > Create post (the API cannot create posts). Images are rendered by studio/render_cards.py into production/community/. KJV scripture only. Never #nsppd or #elroi. YouTube limits: text polls max 4 options; new channels hit a daily post limit (~6/day) until 'advanced features' verification.",
+  "posts": [
+    {
+      "date": "2026-11-15",
+      "type": "text_poll",
+      "text": "Help us choose! 🎶 Which song should get the first official LYRIC VIDEO?",
+      "options": [
+        "Gates of Praise (Original)",
+        "Gates of Praise (Contemporary)",
+        "How Great You Are",
+        "Mysteries of Praise"
+      ],
+      "status": "scheduled"
+    },
+    {
+      "date": "2026-11-17",
+      "type": "image",
+      "image": {
+        "verse": "Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name.",
+        "ref": "Psalm 100:4 (KJV)",
+        "theme": "sunrise",
+        "label": "Thankful Tuesday"
+      },
+      "text": "Thanksgiving is the gate into God's presence. 🙌\n\nTell us ONE thing you're thankful for today 👇 Let's fill this page with praise.\n\n#JesusWorldwide #Thanksgiving #GatesOfPraise"
+    },
+    {
+      "date": "2026-11-20",
+      "type": "quiz",
+      "text": "📖 Bible Quiz! Jesus healed ten lepers. How many came back to say thank you?",
+      "options": [
+        "One",
+        "Three",
+        "Five",
+        "All ten"
+      ],
+      "answer": 0,
+      "explanation": "Only one, a Samaritan, turned back to glorify God and give thanks (Luke 17:15-17). Let's be the one who comes back! 🙏",
+      "status": "scheduled"
+    },
+    {
+      "date": "2026-11-22",
+      "type": "video",
+      "video_id": "Syt7yO4KMyQ",
+      "text": "Sunday praise! 💃🏾🥁 Turn this up and dance for the King: \"How Great You Are\".\n\nComment one word that describes how great God has been to you this week 👇",
+      "status": "scheduled"
+    },
+    {
+      "date": "2026-11-25",
+      "type": "image_poll",
+      "text": "We're designing our Daily Bread videos 🎨 Which look blesses you most?",
+      "options": [
+        {
+          "label": "Sunrise",
+          "image": {
+            "theme": "sunrise",
+            "title": "Sunrise"
+          }
+        },
+        {
+          "label": "Night sky",
+          "image": {
+            "theme": "night",
+            "title": "Night sky"
+          }
+        },
+        {
+          "label": "Praise",
+          "image": {
+            "theme": "praise",
+            "title": "Praise"
+          }
+        },
+        {
+          "label": "Deep worship",
+          "image": {
+            "theme": "deep",
+            "title": "Deep worship"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-11-27",
+      "type": "text",
+      "text": "Happy Thanksgiving to everyone celebrating 🇺🇸, and a thankful heart to all our family in Ghana, Nigeria, Kenya, Uganda, South Africa, the UK, Australia and beyond 🌍\n\n\"O give thanks unto the LORD; for he is good: for his mercy endureth for ever.\" (Psalm 136:1, KJV)\n\nWhatever this year has held, His mercy has not run out. Drop a 🙏 if you're grateful today, and tell us where you're watching from!",
+      "status": "scheduled"
+    },
+    {
+      "date": "2026-11-29",
+      "type": "image",
+      "image": {
+        "verse": "I wait for the LORD, my soul doth wait, and in his word do I hope.",
+        "ref": "Psalm 130:5 (KJV)",
+        "theme": "night",
+        "label": "Advent begins"
+      },
+      "text": "Advent begins today 🕯️ The season of waiting and hoping for Jesus.\n\nWhat are you waiting on God for this season? We'll pray over every comment. 👇\n\n#Advent #JesusWorldwide"
+    },
+    {
+      "date": "2026-12-02",
+      "type": "text_poll",
+      "text": "🌍 We are Jesus WORLDWIDE! Where are you watching from?",
+      "options": [
+        "Ghana 🇬🇭",
+        "Nigeria 🇳🇬",
+        "Rest of Africa 🌍",
+        "Outside Africa (UK, US, Europe, Australia…) ✈️"
+      ],
+      "status": "scheduled"
+    },
+    {
+      "date": "2026-12-04",
+      "type": "quiz",
+      "text": "📖 Christmas Bible Quiz! Which prophet named Bethlehem as the birthplace of the coming Ruler, about 700 years early?",
+      "options": [
+        "Isaiah",
+        "Micah",
+        "Jeremiah",
+        "Daniel"
+      ],
+      "answer": 1,
+      "explanation": "Micah 5:2: \"But thou, Bethlehem Ephratah… out of thee shall he come forth unto me that is to be ruler in Israel.\" God keeps His word! ✨",
+      "status": "scheduled"
+    },
+    {
+      "date": "2026-12-06",
+      "type": "video",
+      "video_id": "FfW4qgVrpz8",
+      "text": "Start your week inside His gates 🙌 \"Gates of Praise\": a song of thanksgiving from Ghana to the nations.\n\nOriginal or Contemporary version? Tell us which one you love 👇"
+    },
+    {
+      "date": "2026-12-09",
+      "type": "image",
+      "image": {
+        "verse": "Behold, a virgin shall be with child, and shall bring forth a son, and they shall call his name Emmanuel, which being interpreted is, God with us.",
+        "ref": "Matthew 1:23 (KJV)",
+        "theme": "deep",
+        "label": "Emmanuel"
+      },
+      "text": "Emmanuel: God WITH us. 💛 Not far away. Not distant. With you in the traffic, the office, the hospital, the market.\n\nType \"God is with me\" if you believe it today 👇"
+    },
+    {
+      "date": "2026-12-11",
+      "type": "text_poll",
+      "text": "We're planning 2027 🙏 What should Jesus Worldwide make more of?",
+      "options": [
+        "Bible Stories (video + audio)",
+        "Worship & prayer sessions",
+        "Bible teachings",
+        "New songs & lyric videos"
+      ]
+    },
+    {
+      "date": "2026-12-13",
+      "type": "quiz",
+      "text": "📖 Quiz time! What does the name \"Bethlehem\" mean?",
+      "options": [
+        "City of David",
+        "House of Bread",
+        "Place of Peace",
+        "Star of Judah"
+      ],
+      "answer": 1,
+      "explanation": "Bethlehem means \"House of Bread\", and that's where Jesus, the Bread of Life (John 6:35), was born. 🍞✨"
+    },
+    {
+      "date": "2026-12-16",
+      "type": "image_poll",
+      "text": "Which promise do you need to hold onto this week? Pick one and claim it 🙏",
+      "options": [
+        {
+          "label": "Peace",
+          "image": {
+            "verse": "Peace I leave with you, my peace I give unto you.",
+            "ref": "John 14:27",
+            "theme": "field",
+            "title": "Peace"
+          }
+        },
+        {
+          "label": "Strength",
+          "image": {
+            "verse": "Fear thou not; for I am with thee.",
+            "ref": "Isaiah 41:10",
+            "theme": "sunrise",
+            "title": "Strength"
+          }
+        },
+        {
+          "label": "Hope",
+          "image": {
+            "verse": "Now the God of hope fill you with all joy and peace in believing.",
+            "ref": "Romans 15:13",
+            "theme": "night",
+            "title": "Hope"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-12-18",
+      "type": "text",
+      "text": "🙏 Prayer wall: Christmas travel season\n\nMany of us are on the road this week, visiting home, family and church. Lord, keep every traveller safe, every road clear and every home full of Your peace.\n\n\"The LORD shall preserve thy going out and thy coming in from this time forth, and even for evermore.\" (Psalm 121:8, KJV)\n\nShare your prayer request below and we'll pray with you. 💛"
+    },
+    {
+      "date": "2026-12-20",
+      "type": "video",
+      "video_id": "dQC7XfflHmM",
+      "text": "Need a quiet moment with God before Christmas? 🕯️ Spend five minutes in His presence with \"Mysteries of Praise\".\n\nWhere are you listening from tonight?"
+    },
+    {
+      "date": "2026-12-23",
+      "type": "quiz",
+      "text": "📖 Christmas Quiz! Who were the FIRST people the angel told about Jesus' birth?",
+      "options": [
+        "The wise men",
+        "The shepherds",
+        "The priests in the temple",
+        "King Herod"
+      ],
+      "answer": 1,
+      "explanation": "Shepherds keeping watch over their flock by night (Luke 2:8-11). God brought the good news to ordinary workers first. That good news is for YOU too! 🐑✨"
+    },
+    {
+      "date": "2026-12-25",
+      "type": "image",
+      "image": {
+        "verse": "Fear not: for, behold, I bring you good tidings of great joy, which shall be to all people.",
+        "ref": "Luke 2:10 (KJV)",
+        "theme": "praise",
+        "label": "Merry Christmas"
+      },
+      "text": "MERRY CHRISTMAS from Jesus Worldwide! 🎄✨\n\nGood tidings of great joy for ALL people: every nation, every tongue, every heart. A Saviour is born!\n\nDrop a 🎄 and tell us how you're celebrating today, wherever you are in the world 🌍"
+    },
+    {
+      "date": "2026-12-27",
+      "type": "text_poll",
+      "text": "Looking back on 2026 🙏 How did God show up for you most this year?",
+      "options": [
+        "Provision 🍞",
+        "Healing 💚",
+        "Peace in hard times 🕊️",
+        "Family, friends & new beginnings 🤝"
+      ]
+    },
+    {
+      "date": "2026-12-30",
+      "type": "image",
+      "image": {
+        "verse": "Hitherto hath the LORD helped us.",
+        "ref": "1 Samuel 7:12 (KJV)",
+        "theme": "sunrise",
+        "label": "Watch Night"
+      },
+      "text": "Ebenezer: thus far the LORD has helped us! 🙌\n\nTomorrow night is Watch Night. Wherever you cross into 2027, in church, at home or on the road, cross over with thanksgiving.\n\nType ONE word for what you're believing God for in 2027 👇 #WatchNight #JesusWorldwide"
+    }
+  ]
+}
