@@ -262,8 +262,14 @@ def update_channel(
     keywords: str | None = None,
     trailer_video_id: str | None = None,
 ) -> dict[str, Any]:
-    """Change the channel description, keywords (space-separated, multi-word terms in
-    double quotes) and/or the trailer shown to non-subscribers. Others stay unchanged."""
+    """Change the channel description (max 1000 characters), keywords (space-separated,
+    multi-word terms in double quotes) and/or the trailer shown to non-subscribers.
+
+    IMPORTANT: always pass ALL THREE fields together. YouTube serves stale channel
+    settings for several minutes after a write, and this tool writes back every field,
+    so updating one field alone can silently revert a recent change to another."""
+    if description is not None and len(description) > 1000:
+        raise ValueError(f"Channel description is {len(description)} characters; YouTube allows 1000.")
     yt = yt_auth.youtube()
     ch = _my_channel("brandingSettings")
     b = ch.get("brandingSettings", {}).get("channel", {})
