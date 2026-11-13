@@ -190,10 +190,13 @@ def update_video(
     description: str | None = None,
     tags: list[str] | None = None,
     category_id: str | None = None,
-    contains_synthetic_media: bool | None = None,
 ) -> dict[str, Any]:
-    """Change a video's title, description, tags, category (Music = "10") and/or the
-    altered/synthetic content disclosure. Fields left out stay as they are."""
+    """Change a video's title, description, tags and/or category (Music = "10").
+    Fields left out stay as they are.
+
+    The altered/synthetic (AI) content disclosure is NOT settable here: the API
+    accepts status.containsSyntheticMedia and echoes it back, but YouTube does not
+    save it (confirmed in Studio, Nov 2026). Set it in YouTube Studio instead."""
     yt = yt_auth.youtube()
     items = yt.videos().list(part="snippet,status", id=video_id).execute().get("items", [])
     if not items:
@@ -219,22 +222,12 @@ def update_video(
 
     body = {"id": video_id, "snippet": {k: sn[k] for k in
             ("title", "description", "tags", "categoryId", "defaultLanguage") if k in sn}}
-    parts = ["snippet"]
-    if contains_synthetic_media is not None:
-        st = v["status"]
-        body["status"] = {k: st[k] for k in
-                          ("privacyStatus", "embeddable", "license", "publicStatsViewable",
-                           "selfDeclaredMadeForKids", "publishAt") if k in st}
-        body["status"]["containsSyntheticMedia"] = contains_synthetic_media
-        parts.append("status")
-
-    res = yt.videos().update(part=",".join(parts), body=body).execute()
+    res = yt.videos().update(part="snippet", body=body).execute()
     rs = res["snippet"]
     return {
         "video_id": video_id,
         "before": before,
         "after": {"title": rs.get("title"), "category_id": rs.get("categoryId"), "tags": rs.get("tags", [])},
-        "synthetic_media": res.get("status", {}).get("containsSyntheticMedia"),
     }
 
 
