@@ -72,10 +72,14 @@ def chrome_shot(args: list[str], shot: Path) -> None:
     machine after writing the file, so success = a fresh, non-empty screenshot."""
     shot.unlink(missing_ok=True)
     for attempt in range(3):
-        p = subprocess.run([CHROME, *args, f"--screenshot={shot}"], capture_output=True, text=True, timeout=180)
+        try:
+            p = subprocess.run([CHROME, *args, f"--screenshot={shot}"], capture_output=True, text=True, timeout=180)
+            err = p.stderr
+        except subprocess.TimeoutExpired:
+            err = "Chrome timed out"
         if shot.exists() and shot.stat().st_size > 10_000:
             return
-        sys.stderr.write(p.stderr[-1500:])
+        sys.stderr.write(err[-1500:])
     raise SystemExit("Chrome screenshot failed")
 
 
@@ -107,7 +111,8 @@ def narrate(spec: dict, out: Path) -> tuple[Path, list[dict], float]:
         for attempt in range(4):
             try:
                 rate = f"{rates[attempt]:+d}%"
-                words = asyncio.run(_tts(spec["script"], spec["voice"], rate, mp3))
+                # a stalled connection to the voice service once froze a whole queue run
+                words = asyncio.run(asyncio.wait_for(_tts(spec["script"], spec["voice"], rate, mp3), 120))
                 if words and mp3.stat().st_size > 10_000:
                     break
             except Exception as e:  # NoAudioReceived, network hiccups
