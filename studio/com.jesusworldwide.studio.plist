@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Daily production queue for @JesusIsWorldwide.
+  Install:   sed "s|REPO_PATH|$PWD|g" studio/com.jesusworldwide.studio.plist > ~/Library/LaunchAgents/com.jesusworldwide.studio.plist && launchctl load ~/Library/LaunchAgents/com.jesusworldwide.studio.plist
+  Remove:    launchctl unload ~/Library/LaunchAgents/com.jesusworldwide.studio.plist && rm ~/Library/LaunchAgents/com.jesusworldwide.studio.plist
+  Log:       production/queue.log
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.jesusworldwide.studio</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>REPO_PATH/studio/.venv/bin/python</string>
+    <string>REPO_PATH/studio/queue_run.py</string>
+    <string>--max-uploads</string>
+    <string>5</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>REPO_PATH/studio</string>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>9</integer>
+    <key>Minute</key>
+    <integer>15</integer>
+  </dict>
+  <key>StandardOutPath</key>
+  <string>REPO_PATH/production/launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>REPO_PATH/production/launchd.err.log</string>
+  <key>LowPriorityIO</key>
+  <true/>
+  <key>Nice</key>
+  <integer>10</integer>
+</dict>
+</plist>

@@ -16,3 +16,11 @@ __pycache__/
 # Vercel / OS
 .vercel/
 .DS_Store
+
+# Song masters and rendered media: never commit (repo is public)
+songs */
+production/
+*.wav
+*.mp4
+*.mp3
+*.m4a
