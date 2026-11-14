@@ -58,6 +58,19 @@ def main() -> None:
     ap.add_argument("--render-only", action="store_true")
     ap.add_argument("--max-uploads", type=int, default=5)
     a = ap.parse_args()
+    # The Mac may wake for the 09:15 run before Wi-Fi reconnects (14 Nov 2026: every upload
+    # failed on DNS). Wait up to 10 minutes for the network before doing anything.
+    import socket
+    import time
+    for _ in range(20):
+        try:
+            socket.getaddrinfo("www.googleapis.com", 443)
+            break
+        except OSError:
+            time.sleep(30)
+    else:
+        log("no internet connection after 10 minutes; exiting")
+        return
     now = dt.datetime.now(dt.timezone.utc)
     uploads = 0
     for p in specs():
