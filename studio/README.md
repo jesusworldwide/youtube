@@ -39,7 +39,7 @@ sed "s|REPO_PATH|$PWD|g" studio/com.jesusworldwide.studio.plist > ~/Library/Laun
 launchctl load ~/Library/LaunchAgents/com.jesusworldwide.studio.plist
 ```
 (Installed on the ministry Mac on 13 Nov 2026.)
-Runs `queue_run.py` every day at 9:15 am, and catches up after the Mac wakes. To remove it:
+Runs `queue_run.py` every day at 9:15 am and 3 pm (YouTube's upload cap is a rolling 24 hours, so the second run picks up what the first could not), and catches up after the Mac wakes. To remove it:
 `launchctl unload ~/Library/LaunchAgents/com.jesusworldwide.studio.plist && rm ~/Library/LaunchAgents/com.jesusworldwide.studio.plist`
 
 ## Choices baked in

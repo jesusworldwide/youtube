@@ -38,11 +38,16 @@ def log(msg: str) -> None:
 
 
 def specs() -> list[Path]:
+    """Upload order (the channel's daily upload cap is the bottleneck): anything going public
+    within 3 days first, then music releases (so they're scheduled on YouTube early), then by date."""
+    soon = (dt.datetime.now(dt.timezone.utc) + dt.timedelta(days=3)).strftime("%Y-%m-%dT%H:%M:%SZ")
     items = []
     for p in sorted(PROD.glob("*/*/spec.json")):
         s = json.loads(p.read_text())
-        items.append((s["youtube"].get("publish_at", ""), p))
-    return [p for _, p in sorted(items)]
+        pub = s["youtube"].get("publish_at", "")
+        rank = 0 if pub <= soon else 1 if s.get("kind") in ("music-video", "compilation") else 2
+        items.append((rank, pub, p))
+    return [p for *_, p in sorted(items)]
 
 
 def main() -> None:
