@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT / "youtube-mcp"))
 
 import yt_auth  # noqa: E402  (shared OAuth token from youtube-mcp)
 from googleapiclient.errors import HttpError  # noqa: E402
+import httplib2  # noqa: E402
 from googleapiclient.http import MediaFileUpload  # noqa: E402
 
 
@@ -62,7 +63,7 @@ def upload(video_path: Path, meta: dict, thumbnail: Path | None = None) -> str:
                 time.sleep(2 ** retries)
                 continue
             raise
-        except (OSError, TimeoutError) as e:
+        except (OSError, TimeoutError, httplib2.HttpLib2Error) as e:
             # Wi-Fi drop mid-upload (14 Nov 2026): wait, then resume from the last chunk.
             if retries < 5:
                 retries += 1
