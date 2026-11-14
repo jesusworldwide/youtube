@@ -107,6 +107,10 @@ def main() -> None:
                 a.render_only = True
                 continue
             log(f"UPLOAD FAILED {p.parent.name}: {e}")
+        except (OSError, TimeoutError) as e:
+            # network is down: don't burn through the whole queue; the next run retries
+            log(f"UPLOAD FAILED {p.parent.name}: network error {e!r}; stopping uploads for this run")
+            a.render_only = True
         except Exception:
             log(f"UPLOAD FAILED {p.parent.name}: {traceback.format_exc(limit=2)}")
     log(f"run finished: {uploads} uploaded")

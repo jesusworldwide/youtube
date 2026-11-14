@@ -62,6 +62,14 @@ def upload(video_path: Path, meta: dict, thumbnail: Path | None = None) -> str:
                 time.sleep(2 ** retries)
                 continue
             raise
+        except (OSError, TimeoutError) as e:
+            # Wi-Fi drop mid-upload (14 Nov 2026): wait, then resume from the last chunk.
+            if retries < 5:
+                retries += 1
+                print(f"  network error ({e.__class__.__name__}); resuming in {15 * retries}s", flush=True)
+                time.sleep(15 * retries)
+                continue
+            raise
     vid = resp["id"]
     print(f"  uploaded https://youtu.be/{vid}  ({status['privacyStatus']}, publishAt={status.get('publishAt')})")
 
