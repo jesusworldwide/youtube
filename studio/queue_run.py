@@ -17,6 +17,7 @@ import traceback
 from pathlib import Path
 
 from googleapiclient.errors import HttpError
+import google.auth.exceptions
 import httplib2
 
 import make_long
@@ -108,7 +109,7 @@ def main() -> None:
                 a.render_only = True
                 continue
             log(f"UPLOAD FAILED {p.parent.name}: {e}")
-        except (OSError, TimeoutError, httplib2.HttpLib2Error) as e:
+        except (OSError, TimeoutError, httplib2.HttpLib2Error, google.auth.exceptions.TransportError) as e:
             # network is down: don't burn through the whole queue; the next run retries
             log(f"UPLOAD FAILED {p.parent.name}: network error {e!r}; stopping uploads for this run")
             a.render_only = True

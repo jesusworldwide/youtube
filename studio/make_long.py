@@ -127,7 +127,7 @@ def main(spec_path: str) -> None:
 
     video = out / spec.get("output", "video.mp4")
     run([FFMPEG, "-y", "-loglevel", "error", *inputs, "-filter_complex", ";".join(filt),
-         "-map", "[vout]", "-map", "[aout]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "21",
+         "-map", "[vout]", "-map", "[aout]", "-c:v", "libx264", "-preset", "medium", "-crf", "28",  # about half the size; uploads survive shaky Wi-Fi
          "-tune", "stillimage", "-pix_fmt", "yuv420p", "-r", str(FPS),
          "-c:a", "aac", "-b:a", "256k", "-ar", "48000", "-ac", "2", "-movflags", "+faststart",
          "-t", f"{total:.3f}", video.name], cwd=out)

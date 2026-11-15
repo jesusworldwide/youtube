@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT / "youtube-mcp"))
 
 import yt_auth  # noqa: E402  (shared OAuth token from youtube-mcp)
 from googleapiclient.errors import HttpError  # noqa: E402
+import google.auth.exceptions  # noqa: E402
 import httplib2  # noqa: E402
 from googleapiclient.http import MediaFileUpload  # noqa: E402
 
@@ -49,12 +50,13 @@ def upload(video_path: Path, meta: dict, thumbnail: Path | None = None) -> str:
         },
         "status": status,
     }
-    media = MediaFileUpload(str(video_path), mimetype="video/mp4", chunksize=8 * 1024 * 1024, resumable=True)
+    media = MediaFileUpload(str(video_path), mimetype="video/mp4", chunksize=4 * 1024 * 1024, resumable=True)
     req = yt.videos().insert(part="snippet,status", body=body, media_body=media)
     resp, retries = None, 0
     while resp is None:
         try:
             prog, resp = req.next_chunk()
+            retries = 0  # a chunk got through; only consecutive failures count
             if prog:
                 print(f"  uploading… {int(prog.progress() * 100)}%", flush=True)
         except HttpError as e:
@@ -63,9 +65,9 @@ def upload(video_path: Path, meta: dict, thumbnail: Path | None = None) -> str:
                 time.sleep(2 ** retries)
                 continue
             raise
-        except (OSError, TimeoutError, httplib2.HttpLib2Error) as e:
+        except (OSError, TimeoutError, httplib2.HttpLib2Error, google.auth.exceptions.TransportError) as e:
             # Wi-Fi drop mid-upload (14 Nov 2026): wait, then resume from the last chunk.
-            if retries < 5:
+            if retries < 8:
                 retries += 1
                 print(f"  network error ({e.__class__.__name__}); resuming in {15 * retries}s", flush=True)
                 time.sleep(15 * retries)
