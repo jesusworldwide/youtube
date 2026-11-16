@@ -24,7 +24,8 @@
         "theme": "sunrise",
         "label": "Thankful Tuesday"
       },
-      "text": "Thanksgiving is the gate into God's presence. 🙌\n\nTell us ONE thing you're thankful for today 👇 Let's fill this page with praise.\n\n#JesusWorldwide #Thanksgiving #GatesOfPraise"
+      "text": "Thanksgiving is the gate into God's presence. 🙌\n\nTell us ONE thing you're thankful for today 👇 Let's fill this page with praise.\n\n#JesusWorldwide #Thanksgiving #GatesOfPraise",
+      "status": "scheduled"
     },
     {
       "date": "2026-11-20",
@@ -80,7 +81,8 @@
             "title": "Deep worship"
           }
         }
-      ]
+      ],
+      "status": "scheduled"
     },
     {
       "date": "2026-11-27",
@@ -97,7 +99,8 @@
         "theme": "night",
         "label": "Advent begins"
       },
-      "text": "Advent begins today 🕯️ The season of waiting and hoping for Jesus.\n\nWhat are you waiting on God for this season? We'll pray over every comment. 👇\n\n#Advent #JesusWorldwide"
+      "text": "Advent begins today 🕯️ The season of waiting and hoping for Jesus.\n\nWhat are you waiting on God for this season? We'll pray over every comment. 👇\n\n#Advent #JesusWorldwide",
+      "status": "scheduled"
     },
     {
       "date": "2026-12-02",
@@ -141,7 +144,8 @@
         "theme": "deep",
         "label": "Emmanuel"
       },
-      "text": "Emmanuel: God WITH us. 💛 Not far away. Not distant. With you in the traffic, the office, the hospital, the market.\n\nType \"God is with me\" if you believe it today 👇"
+      "text": "Emmanuel: God WITH us. 💛 Not far away. Not distant. With you in the traffic, the office, the hospital, the market.\n\nType \"God is with me\" if you believe it today 👇",
+      "status": "scheduled"
     },
     {
       "date": "2026-12-11",
@@ -201,7 +205,8 @@
             "title": "Hope"
           }
         }
-      ]
+      ],
+      "status": "scheduled"
     },
     {
       "date": "2026-12-18",
@@ -239,7 +244,8 @@
         "theme": "praise",
         "label": "Merry Christmas"
       },
-      "text": "MERRY CHRISTMAS from Jesus Worldwide! 🎄✨\n\nGood tidings of great joy for ALL people: every nation, every tongue, every heart. A Saviour is born!\n\nDrop a 🎄 and tell us how you're celebrating today, wherever you are in the world 🌍"
+      "text": "MERRY CHRISTMAS from Jesus Worldwide! 🎄✨\n\nGood tidings of great joy for ALL people: every nation, every tongue, every heart. A Saviour is born!\n\nDrop a 🎄 and tell us how you're celebrating today, wherever you are in the world 🌍",
+      "status": "scheduled"
     },
     {
       "date": "2026-12-27",
@@ -262,7 +268,8 @@
         "theme": "sunrise",
         "label": "Watch Night"
       },
-      "text": "Ebenezer: thus far the LORD has helped us! 🙌\n\nTomorrow night is Watch Night. Wherever you cross into 2027, in church, at home or on the road, cross over with thanksgiving.\n\nType ONE word for what you're believing God for in 2027 👇 #WatchNight #JesusWorldwide"
+      "text": "Ebenezer: thus far the LORD has helped us! 🙌\n\nTomorrow night is Watch Night. Wherever you cross into 2027, in church, at home or on the road, cross over with thanksgiving.\n\nType ONE word for what you're believing God for in 2027 👇 #WatchNight #JesusWorldwide",
+      "status": "scheduled"
     }
   ]
 }
